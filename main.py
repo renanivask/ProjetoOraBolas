@@ -7,7 +7,6 @@ def read_data_from_file(file_path):
     time_values = []
 
     with open(file_path, 'r') as file:
-        # Skip the header line
         next(file)
 
         for line in file:
@@ -35,7 +34,7 @@ bola_x_agora = 0.0
 bola_y_agora = 0.0
 dist_total = 0.0
 
-# calcular dt
+# calcula o dt
 for i in range(len(bola_x)):
     bola_x_agora = bola_x[i]
     bola_y_agora = bola_y[i]
@@ -58,7 +57,7 @@ acel_y = (bola_y_agora - sy_agora)/dist_total * acel_robo
 pos_x = []
 pos_y = []
 
-# Posicoes pro grafico do robo
+# Posições para o gráfico do robô
 while True:
     if tempo_agora >= dt:
         break
@@ -68,7 +67,7 @@ while True:
     pos_x.append(x_agora)
     pos_y.append(y_agora)
 
-# Crie listas vazias para armazenar as grandezas de interesse
+# Cria listas vazias para armazenar as grandezas de interesse
 pos_x_robo = []
 pos_y_robo = []
 pos_x_bola = []
@@ -83,7 +82,7 @@ acel_x_bola_list = []
 acel_y_bola_list = []
 dist_rel_list = []
 
-# Posicoes, velocidades, acelerações e distância
+# Posições, velocidades, acelerações e distância
 for tempo in tempos:
     x_agora_robo = sx_agora + (acel_x * (tempo**2))/2
     y_agora_robo = sy_agora + (acel_y * (tempo**2))/2
@@ -116,19 +115,33 @@ for tempo in tempos:
 
     dist_rel_list.append(dist_rel)
 
-# Agora você pode gerar os gráficos com as dimensões corretas
 # Menu interativo
 while True:
     print("\nEscolha o tipo de gráfico:")
-    print("1. Gráfico das coordenadas 𝑥 e 𝑦 da posição da bola e do robô em função do tempo 𝑡")
-    print("2. Gráfico dos componentes 𝑣𝑥 e 𝑣𝑦 da velocidade da bola e do robô em função do tempo 𝑡")
-    print("3. Gráfico dos componentes 𝑎𝑥 e 𝑎𝑦 da aceleração da bola e do robô em função do tempo 𝑡")
-    print("4. Gráfico da distância relativa 𝑑 entre o robô e a bola como função do tempo 𝑡")
+    print("1. Gráfico das trajetórias da bola e do robô em um plano 𝑥𝑦, até o ponto de interceptação")
+    print("2. Gráfico das coordenadas 𝑥 e 𝑦 da posição da bola e do robô em função do tempo 𝑡")
+    print("3. Gráfico dos componentes 𝑣𝑥 e 𝑣𝑦 da velocidade da bola e do robô em função do tempo 𝑡")
+    print("4. Gráfico dos componentes 𝑎𝑥 e 𝑎𝑦 da aceleração da bola e do robô em função do tempo 𝑡")
+    print("5. Gráfico da distância relativa 𝑑 entre o robô e a bola como função do tempo 𝑡")
     print("0. Sair")
 
     escolha = input("Digite o número da opção desejada: ")
 
     if escolha == "1":
+        # Gráfico das coordenadas 𝑥 e 𝑦 da posição da bola e do robô em função do tempo 𝑡
+        plt.figure(figsize=(8, 6))
+        plt.plot(bola_x, bola_y, color="red", marker="o", label="Trajetória da Bola")
+        plt.plot(pos_x_robo, pos_y_robo, color="blue", marker="o", label="Trajetória do Robô")
+        plt.xlabel("Posição X")
+        plt.ylabel("Posição Y")
+        plt.title("Trajetórias da Bola e do Robô")
+        plt.legend()
+        plt.xlim(0, 9.0)
+        plt.ylim(0, 6.0)
+        plt.grid(True)
+        plt.show()
+  
+    if escolha == "2":
         # Gráfico das coordenadas 𝑥 e 𝑦 da posição da bola e do robô em função do tempo 𝑡
         plt.figure(figsize=(12, 6))
         plt.subplot(2, 2, 1)
@@ -147,7 +160,7 @@ while True:
 
         plt.show()
 
-    elif escolha == "2":
+    elif escolha == "3":
         # Gráfico dos componentes 𝑣𝑥 e 𝑣𝑦 da velocidade da bola e do robô em função do tempo 𝑡
         plt.figure(figsize=(12, 6))
         plt.subplot(2, 2, 1)
@@ -165,7 +178,7 @@ while True:
         plt.tight_layout()
         plt.show()
 
-    elif escolha == "3":
+    elif escolha == "4":
         # Gráfico dos componentes 𝑎𝑥 e 𝑎𝑦 da aceleração da bola e do robô em função do tempo
         plt.figure(figsize=(12, 6))
         plt.subplot(2, 2, 1)
@@ -183,7 +196,7 @@ while True:
         plt.tight_layout()
         plt.show()
 
-    elif escolha == "4":
+    elif escolha == "5":
         # Gráfico da distância relativa 𝑑 entre o robô e a bola como função do tempo
         plt.figure(figsize=(12, 6))
         plt.subplot(2, 2, 1)
