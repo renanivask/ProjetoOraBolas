@@ -55,8 +55,8 @@ sx_imediato = S0x
 sy_imediato = S0y
 aceleracao_x = (x_bola_imediato - sx_imediato)/distancia_total * aceleracao_r
 aceleracao_y = (y_bola_imediato - sy_imediato)/distancia_total * aceleracao_r
-pos_x = []
-pos_y = []
+poiscao_x = []
+poiscao_y = []
 
 # Posicoes pro grafico do robo
 while True:
@@ -65,56 +65,56 @@ while True:
     x_agora = S0x + (aceleracao_x * (tempo_agora**2))/2
     y_agora = S0y + (aceleracao_y * (tempo_agora**2))/2
     tempo_agora += 0.001
-    pos_x.append(x_agora)
-    pos_y.append(y_agora)
+    poiscao_x.append(x_agora)
+    poiscao_y.append(y_agora)
 
 # Crie listas vazias para armazenar as grandezas de interesse
-pos_x_robo = []
-pos_y_robo = []
-pos_x_bola = []
-pos_y_bola = []
-vel_x_robo_list = []
-vel_y_robo_list = []
-vel_x_bola_list = []
-vel_y_bola_list = []
-aceleracao_x_robo_list = []
-aceleracao_y_robo_list = []
-aceleracao_x_bola_list = []
-aceleracao_y_bola_list = []
-dist_rel_list = []
+posicao_x_r = []
+posicao_y_r = []
+posicao_x_b = []
+posicao_y_b = []
+velocidade_x_r_lista = []
+velocidade_y_r_lista = []
+velocidade_x_b_lista = []
+velocidade_y_b_lista = []
+acel_x_r_lista = []
+acel_y_r_lista = []
+acel_x_b_lista = []
+acel_y_b_lista = []
+distancia_relativa_lista = []
 
 # Posicoes, velocidades, acelerações e distância
 for tempo in tempos:
-    x_agora_robo = sx_imediato + (aceleracao_x * (tempo**2))/2
-    y_agora_robo = sy_imediato + (aceleracao_y * (tempo**2))/2
-    x_agora_bola = x_bola_imediato
-    y_agora_bola = y_bola_imediato
-    vel_x_robo = aceleracao_x * tempo
-    vel_y_robo = aceleracao_y * tempo
-    vel_x_bola = 0.0
-    vel_y_bola = 0.0
-    aceleracao_x_robo = aceleracao_x
-    aceleracao_y_robo = aceleracao_y
-    aceleracao_x_bola = 0.0
-    aceleracao_y_bola = 0.0
-    dist_rel = ((x_agora_robo - x_agora_bola)**2 + (y_agora_robo - y_agora_bola)**2)**0.5
+    x_imediato_r = sx_imediato + (aceleracao_x * (tempo**2))/2
+    y_imediato_r = sy_imediato + (aceleracao_y * (tempo**2))/2
+    x_imediato_b = x_bola_imediato
+    y_imediato_b = y_bola_imediato
+    velocidade_x_r = aceleracao_x * tempo
+    velocidade_y_r = aceleracao_y * tempo
+    velocidade_x_b = 0.0
+    velocidade_y_b = 0.0
+    acel_x_r = aceleracao_x
+    acel_y_r = aceleracao_y
+    acel_x_b = 0.0
+    acel_y_b = 0.0
+    distancia_relativa = ((x_imediato_r - x_imediato_b)**2 + (y_imediato_r - y_imediato_b)**2)**0.5
 
-    pos_x_robo.append(x_agora_robo)
-    pos_y_robo.append(y_agora_robo)
-    pos_x_bola.append(x_agora_bola)
-    pos_y_bola.append(y_agora_bola)
+    posicao_x_r.append(x_imediato_r)
+    posicao_y_r.append(y_imediato_r)
+    posicao_x_b.append(x_imediato_b)
+    posicao_y_b.append(y_imediato_b)
 
-    vel_x_robo_list.append(vel_x_robo)
-    vel_y_robo_list.append(vel_y_robo)
-    vel_x_bola_list.append(vel_x_bola)
-    vel_y_bola_list.append(vel_y_bola)
+    velocidade_x_r_lista.append(velocidade_x_r)
+    velocidade_y_r_lista.append(velocidade_y_r)
+    velocidade_x_b_lista.append(velocidade_x_b)
+    velocidade_y_b_lista.append(velocidade_y_b)
 
-    aceleracao_x_robo_list.append(aceleracao_x_robo)
-    aceleracao_y_robo_list.append(aceleracao_y_robo)
-    aceleracao_x_bola_list.append(aceleracao_x_bola)
-    aceleracao_y_bola_list.append(aceleracao_y_bola)
+    acel_x_r_lista.append(acel_x_r)
+    acel_y_r_lista.append(acel_y_r)
+    acel_x_b_lista.append(acel_x_b)
+    acel_y_b_lista.append(acel_y_b)
 
-    dist_rel_list.append(dist_rel)
+    distancia_relativa_lista.append(distancia_relativa)
 
 # Menu interativo
 while True:
@@ -131,7 +131,7 @@ while True:
     if escolha == "1":
         plt.figure(figsize=(8, 6))
         plt.plot(bola_x, bola_y, color="blueviolet", marker=",", label="Trajetória da Bola")
-        plt.plot(pos_x_robo, pos_y_robo, color="darkcyan", marker=",", label="Trajetória do Robô")
+        plt.plot(posicao_x_r, posicao_y_r, color="darkcyan", marker=",", label="Trajetória do Robô")
         plt.xlabel("Posição X")
         plt.ylabel("Posição Y")
         plt.title("Trajetórias da Bola e do Robô")
@@ -146,7 +146,7 @@ while True:
         plt.figure(figsize=(12, 6))
         plt.subplot(2, 2, 1)
         plt.plot(tempos, bola_x, color="blueviolet", marker=",", label="Posição Bola X")
-        plt.plot(tempos, pos_x_robo, color="darkcyan", marker=",", label="Posição Robô X")
+        plt.plot(tempos, posicao_x_r, color="darkcyan", marker=",", label="Posição Robô X")
         plt.xlabel("Tempo (s)")
         plt.ylabel("Posição X")
         plt.title("Coordenadas de x da Posição da Bola e do Robô")
@@ -154,7 +154,7 @@ while True:
 
         plt.subplot(2, 2, 2)
         plt.plot(tempos, bola_y, color="blueviolet", marker=",", label="Posição Bola Y")
-        plt.plot(tempos, pos_y_robo, color="darkcyan", marker=",", label="Posição Robô Y")
+        plt.plot(tempos, posicao_y_r, color="darkcyan", marker=",", label="Posição Robô Y")
         plt.xlabel("Tempo (s)")
         plt.ylabel("Posição Y")
         plt.title("Coordenadas de y da Posição da Bola e do Robô")
@@ -166,14 +166,14 @@ while True:
         # Gráfico dos componentes 𝑣𝑥 e 𝑣𝑦 da velocidade da bola e do robô em função do tempo 𝑡
         plt.figure(figsize=(12, 6))
         plt.subplot(2, 2, 1)
-        plt.plot(tempos, vel_x_robo_list, color="darkcyan", marker=",", label="Velocidade X Robô")
+        plt.plot(tempos, velocidade_x_r_lista, color="darkcyan", marker=",", label="Velocidade X Robô")
         plt.xlabel("Tempo (s)")
         plt.ylabel("Velocidade X")
         plt.title("Componente vx da Posição da Bola e do Robô")
         plt.legend()
 
         plt.subplot(2, 2, 2)
-        plt.plot(tempos, vel_y_robo_list, color="darkcyan", marker=",", label="Velocidade Y Robô")
+        plt.plot(tempos, velocidade_y_r_lista, color="darkcyan", marker=",", label="Velocidade Y Robô")
         plt.xlabel("Tempo (s)")
         plt.ylabel("Velocidade Y")
         plt.title("Componente vy da Posição da Bola e do Robô")
@@ -186,14 +186,14 @@ while True:
         # Gráfico dos componentes 𝑎𝑥 e 𝑎𝑦 da aceleração da bola e do robô em função do tempo
         plt.figure(figsize=(12, 6))
         plt.subplot(2, 2, 1)
-        plt.plot(tempos, aceleracao_x_robo_list, color="darkcyan", label="Aceleração X Robô")
+        plt.plot(tempos, acel_x_r_lista, color="darkcyan", label="Aceleração X Robô")
         plt.xlabel("Tempo (s)")
         plt.ylabel("Aceleração X")
         plt.title("Componente ax da Posição da Bola e do Robô")
         plt.legend()
 
         plt.subplot(2, 2, 2)
-        plt.plot(tempos, aceleracao_y_robo_list, color="darkcyan", label="Aceleração Y Robô")
+        plt.plot(tempos, acel_y_r_lista, color="darkcyan", label="Aceleração Y Robô")
         plt.xlabel("Tempo (s)")
         plt.ylabel("Aceleração Y")
         plt.title("Componente ay da Posição da Bola e do Robô")
@@ -206,7 +206,7 @@ while True:
         # Gráfico da distância relativa 𝑑 entre o robô e a bola como função do tempo
         plt.figure(figsize=(12, 6))
         plt.subplot(2, 2, 1)
-        plt.plot(tempos, dist_rel_list, color="darkcyan", marker=",", label="Distância Relativa")
+        plt.plot(tempos, distancia_relativa_lista, color="darkcyan", marker=",", label="Distância Relativa")
         plt.xlabel("Tempo (s)")
         plt.ylabel("Distância Relativa")
         plt.title("Distância relativa d entre o robô e a bola como função do tempo")
