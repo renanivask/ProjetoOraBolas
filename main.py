@@ -116,6 +116,21 @@ for tempo in tempos:
 
     distancia_relativa_lista.append(distancia_relativa)
 
+# Calcula a velocidade da bola a partir dos dados de posição
+velocidade_x_b_lista = [0.0]
+velocidade_y_b_lista = [0.0]
+
+for i in range(1, len(bola_x)):
+    delta_t = tempos[i] - tempos[i - 1]
+    delta_x = bola_x[i] - bola_x[i - 1]
+    delta_y = bola_y[i] - bola_y[i - 1]
+
+    velocidade_x_b = delta_x / delta_t
+    velocidade_y_b = delta_y / delta_t
+
+    velocidade_x_b_lista.append(velocidade_x_b)
+    velocidade_y_b_lista.append(velocidade_y_b)
+
 # Menu interativo
 while True:
     print("\nEscolha o tipo de gráfico:")
