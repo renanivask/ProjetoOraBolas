@@ -167,6 +167,7 @@ while True:
         plt.figure(figsize=(12, 6))
         plt.subplot(2, 2, 1)
         plt.plot(tempos, velocidade_x_r_lista, color="darkcyan", marker=",", label="Velocidade X Robô")
+        plt.plot(tempos, velocidade_x_b_lista, color="blueviolet", marker=",", label="Velocidade X Bola")
         plt.xlabel("Tempo (s)")
         plt.ylabel("Velocidade X")
         plt.title("Componente vx da Posição da Bola e do Robô")
@@ -174,6 +175,7 @@ while True:
 
         plt.subplot(2, 2, 2)
         plt.plot(tempos, velocidade_y_r_lista, color="darkcyan", marker=",", label="Velocidade Y Robô")
+        plt.plot(tempos, velocidade_y_b_lista, color="blueviolet", marker=",", label="Velocidade Y Bola")
         plt.xlabel("Tempo (s)")
         plt.ylabel("Velocidade Y")
         plt.title("Componente vy da Posição da Bola e do Robô")
@@ -187,6 +189,7 @@ while True:
         plt.figure(figsize=(12, 6))
         plt.subplot(2, 2, 1)
         plt.plot(tempos, acel_x_r_lista, color="darkcyan", label="Aceleração X Robô")
+        plt.plot(tempos, acel_x_b_lista, color="blueviolet", label="Aceleração X Bola")
         plt.xlabel("Tempo (s)")
         plt.ylabel("Aceleração X")
         plt.title("Componente ax da Posição da Bola e do Robô")
@@ -194,6 +197,7 @@ while True:
 
         plt.subplot(2, 2, 2)
         plt.plot(tempos, acel_y_r_lista, color="darkcyan", label="Aceleração Y Robô")
+        plt.plot(tempos, acel_y_b_lista, color="blueviolet", label="Aceleração Y Bola")
         plt.xlabel("Tempo (s)")
         plt.ylabel("Aceleração Y")
         plt.title("Componente ay da Posição da Bola e do Robô")
@@ -201,6 +205,7 @@ while True:
 
         plt.tight_layout()
         plt.show()
+
 
     elif escolha == "5":
         # Gráfico da distância relativa 𝑑 entre o robô e a bola como função do tempo
