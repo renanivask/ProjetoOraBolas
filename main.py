@@ -151,6 +151,8 @@ while True:
         plt.ylabel("Posição X")
         plt.title("Coordenadas de x da Posição da Bola e do Robô")
         plt.legend()
+        plt.xlim(0, 9.0)
+        plt.ylim(0, 6.0)
 
         plt.subplot(2, 2, 2)
         plt.plot(tempos, bola_y, color="blueviolet", marker=",", label="Posição Bola Y")
@@ -159,6 +161,8 @@ while True:
         plt.ylabel("Posição Y")
         plt.title("Coordenadas de y da Posição da Bola e do Robô")
         plt.legend()
+        plt.xlim(0, 9.0)
+        plt.ylim(0, 6.0)
 
         plt.show()
 
