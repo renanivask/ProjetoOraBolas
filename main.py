@@ -216,7 +216,9 @@ while True:
         plt.ylabel("Distância Relativa")
         plt.title("Distância relativa d entre o robô e a bola como função do tempo")
         plt.legend()
-
+        plt.xlim(0, 9.0)
+        plt.ylim(0, 6.0)
+      
         plt.show()
 
     elif escolha == "0":
