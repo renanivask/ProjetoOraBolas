@@ -25,8 +25,8 @@ acel_robo = 2.8
 raio_robo = 0.09
 raio_bola = 0.0105
 
-S0x = float(input("Digite o espaço inicial de x: "))
-S0y = float(input("Digite o espaço inicial de y: "))
+S0x = float(input("Digite a posição inicial da bola em X: "))
+S0y = float(input("Digite a posição inicial da bola em Y: "))
 
 raio_interceptacao = raio_bola + raio_robo
 
