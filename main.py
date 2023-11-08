@@ -24,9 +24,6 @@ aceleracao_r = 2.8
 raio_r = 0.09
 raio_b = 0.0105
 
-S0x = float(input("Digite a posição inicial da bola em X: "))
-S0y = float(input("Digite a posição inicial da bola em Y: "))
-
 raio_interceptacao = raio_b + raio_r
 
 tempo_interceptacao = 99999
@@ -34,41 +31,35 @@ x_bola_imediato = 0.0
 y_bola_imediato = 0.0
 distancia_total = 0.0
 
-# calcular tempo_interceptacao
+S0x = float(input("Digite a posição inicial da bola em X: "))
+S0y = float(input("Digite a posição inicial da bola em Y: "))
+
+# Calcula o tempo de interceptação.
 for i in range(len(bola_x)):
     x_bola_imediato = bola_x[i]
     y_bola_imediato = bola_y[i]
     tempo_max_interceptacao = tempos[i]
     distancia = (((x_bola_imediato - S0x)**2 + (y_bola_imediato - S0y)**2)**0.5) + raio_interceptacao
     t = (distancia/(0.5*aceleracao_r))**0.5
+    dist = math.sqrt((S0x - x_bola_imediato)**2 + (S0y - y_bola_imediato)**2)
     if t <= tempo_max_interceptacao:
         tempo_interceptacao = t
         distancia_total = distancia
         print("Tempo necessário para a interceptação: ", tempo_interceptacao)
         print("Ponto x de interceptação: ", x_bola_imediato,
               "\nPonto y de interceptação: ", y_bola_imediato)
-        print("Tempo até interceptação: ", tempo_max_interceptacao)
+        print("Distância percorrida pelo robô até a interceptação: ", dist)
         break
 
-tempo_agora = 0.0
 sx_imediato = S0x
 sy_imediato = S0y
+tempo_agora = 0.0
 aceleracao_x = (x_bola_imediato - sx_imediato)/distancia_total * aceleracao_r
 aceleracao_y = (y_bola_imediato - sy_imediato)/distancia_total * aceleracao_r
-poiscao_x = []
 poiscao_y = []
+poiscao_x = []
 
-# Posicoes pro grafico do robo
-while True:
-    if tempo_agora >= tempo_interceptacao:
-        break
-    x_agora = S0x + (aceleracao_x * (tempo_agora**2))/2
-    y_agora = S0y + (aceleracao_y * (tempo_agora**2))/2
-    tempo_agora += 0.001
-    poiscao_x.append(x_agora)
-    poiscao_y.append(y_agora)
-
-# Crie listas vazias para armazenar as grandezas de interesse
+# Cria listas para armazenar as grandezas de interesse.
 posicao_x_r = []
 posicao_y_r = []
 posicao_x_b = []
@@ -83,7 +74,17 @@ acel_x_b_lista = []
 acel_y_b_lista = []
 distancia_relativa_lista = []
 
-# Posicoes, velocidades, acelerações e distância
+# Posições para o gráfico do robô.
+while True:
+    if tempo_agora >= tempo_interceptacao:
+        break
+    x_agora = S0x + (aceleracao_x * (tempo_agora**2))/2
+    y_agora = S0y + (aceleracao_y * (tempo_agora**2))/2
+    tempo_agora += 0.001
+    poiscao_x.append(x_agora)
+    poiscao_y.append(y_agora)
+
+# Posições, velocidades, acelerações e distância.
 for tempo in tempos:
     x_imediato_r = sx_imediato + (aceleracao_x * (tempo**2))/2
     y_imediato_r = sy_imediato + (aceleracao_y * (tempo**2))/2
@@ -116,7 +117,7 @@ for tempo in tempos:
 
     distancia_relativa_lista.append(distancia_relativa)
 
-# Calcula a velocidade da bola a partir dos dados de posição
+# Calcula a velocidade da bola a partir dos dados de posição.
 velocidade_x_b_lista = [0.0]
 velocidade_y_b_lista = [0.0]
 
@@ -131,7 +132,7 @@ for i in range(1, len(bola_x)):
     velocidade_x_b_lista.append(velocidade_x_b)
     velocidade_y_b_lista.append(velocidade_y_b)
 
-# Menu interativo
+# Menu interativo.
 while True:
     print("\nEscolha o tipo de gráfico:")
     print("1. Gráfico das trajetórias da bola e do robô em um plano xy, até o ponto de interceptação")
@@ -143,6 +144,7 @@ while True:
 
     escolha = input("Digite o número da opção desejada: ")
 
+    # Gráfico das trajetórias da bola e do robô em um plano xy, até o ponto de interceptação.
     if escolha == "1":
         plt.figure(figsize=(8, 6))
         plt.plot(bola_x, bola_y, color="blueviolet", marker=",", label="Trajetória da Bola")
@@ -155,9 +157,9 @@ while True:
         plt.ylim(0, 6.0)
         plt.grid(True)
         plt.show()
-  
+
     if escolha == "2":
-        # Gráfico das coordenadas 𝑥 e 𝑦 da posição da bola e do robô em função do tempo 𝑡
+        # Gráfico das coordenadas 𝑥 e 𝑦 da posição da bola e do robô em função do tempo 𝑡.
         plt.figure(figsize=(12, 6))
         plt.subplot(2, 2, 1)
         plt.plot(tempos, bola_x, color="blueviolet", marker=",", label="Posição Bola X")
@@ -181,8 +183,8 @@ while True:
 
         plt.show()
 
+    # Gráfico dos componentes 𝑣𝑥 e 𝑣𝑦 da velocidade da bola e do robô em função do tempo 𝑡.
     elif escolha == "3":
-        # Gráfico dos componentes 𝑣𝑥 e 𝑣𝑦 da velocidade da bola e do robô em função do tempo 𝑡
         plt.figure(figsize=(12, 6))
         plt.subplot(2, 2, 1)
         plt.plot(tempos, velocidade_x_r_lista, color="darkcyan", marker=",", label="Velocidade X Robô")
@@ -203,8 +205,8 @@ while True:
         plt.tight_layout()
         plt.show()
 
+    # Gráfico dos componentes 𝑎𝑥 e 𝑎𝑦 da aceleração da bola e do robô em função do tempo.
     elif escolha == "4":
-        # Gráfico dos componentes 𝑎𝑥 e 𝑎𝑦 da aceleração da bola e do robô em função do tempo
         plt.figure(figsize=(12, 6))
         plt.subplot(2, 2, 1)
         plt.plot(tempos, acel_x_r_lista, color="darkcyan", label="Aceleração X Robô")
@@ -225,9 +227,8 @@ while True:
         plt.tight_layout()
         plt.show()
 
-
+    # Gráfico da distância relativa 𝑑 entre o robô e a bola como função do tempo.
     elif escolha == "5":
-        # Gráfico da distância relativa 𝑑 entre o robô e a bola como função do tempo
         plt.figure(figsize=(12, 6))
         plt.subplot(2, 2, 1)
         plt.plot(tempos, distancia_relativa_lista, color="darkcyan", marker=",", label="Distância Relativa")
@@ -237,7 +238,7 @@ while True:
         plt.legend()
         plt.xlim(0, 9.0)
         plt.ylim(0, 6.0)
-      
+
         plt.show()
 
     elif escolha == "0":
