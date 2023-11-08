@@ -45,7 +45,7 @@ for i in range(len(bola_x)):
     if t <= tmax:
         dt = t
         dist_total = distancia
-        print("Distância: ", dt)
+        print("Tempo necessário para a interceptação: ", dt)
         print("Ponto x de interceptação: ", bola_x_agora,
               "\nPonto y de interceptação: ", bola_y_agora)
         print("Tempo até interceptação: ", tmax)
