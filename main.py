@@ -1,70 +1,69 @@
 import math
 import matplotlib.pyplot as plt
 
-def read_data_from_file(file_path):
-    x_values = []
-    y_values = []
-    time_values = []
+def info_arquivo(file_path):
+    valores_de_x = []
+    valores_de_y = []
+    valores_do_tempo = []
 
     with open(file_path, 'r') as file:
-        # Skip the header line
         next(file)
 
-        for line in file:
-            line = line.strip().replace(',', '.')
-            time, x, y = map(float, line.split('\t'))
-            time_values.append(time)
-            x_values.append(x)
-            y_values.append(y)
+        for linha in file:
+            linha = linha.strip().replace(',', '.')
+            tempo, x, y = map(float, linha.split('\t'))
+            valores_do_tempo.append(tempo)
+            valores_de_x.append(x)
+            valores_de_y.append(y)
 
-    return time_values, x_values, y_values
+    return valores_do_tempo, valores_de_x, valores_de_y
 
-tempos, bola_x, bola_y = read_data_from_file("bola.txt")
+tempos, bola_x, bola_y = info_arquivo("bola.txt")
 
-acel_robo = 2.8
-raio_robo = 0.09
-raio_bola = 0.0105
+aceleracao_r = 2.8
+raio_r = 0.09
+raio_b = 0.0105
 
 S0x = float(input("Digite a posição inicial da bola em X: "))
 S0y = float(input("Digite a posição inicial da bola em Y: "))
 
-raio_interceptacao = raio_bola + raio_robo
+raio_interceptacao = raio_b + raio_r
 
-dt = 99999
-bola_x_agora = 0.0
-bola_y_agora = 0.0
-dist_total = 0.0
+tempo_interceptacao = 99999
+x_bola_imediato = 0.0
+y_bola_imediato = 0.0
+distancia_total = 0.0
 
-# calcular dt
+# calcular tempo_interceptacao
 for i in range(len(bola_x)):
-    bola_x_agora = bola_x[i]
-    bola_y_agora = bola_y[i]
-    tmax = tempos[i]
-    distancia = (((bola_x_agora - S0x)**2 + (bola_y_agora - S0y)**2)**0.5) + raio_interceptacao
-    t = (distancia/(0.5*acel_robo))**0.5
-    if t <= tmax:
-        dt = t
-        dist_total = distancia
-        print("Tempo necessário para a interceptação: ", dt)
-        print("Ponto x de interceptação: ", bola_x_agora,
-              "\nPonto y de interceptação: ", bola_y_agora)
-        print("Tempo até interceptação: ", tmax)
+    x_bola_imediato = bola_x[i]
+    y_bola_imediato = bola_y[i]
+    tempo_max_interceptacao = tempos[i]
+    distancia = (((x_bola_imediato - S0x)**2 + (y_bola_imediato - S0y)**2)**0.5) + raio_interceptacao
+    t = (distancia/(0.5*aceleracao_r))**0.5
+    if t <= tempo_max_interceptacao:
+        tempo_interceptacao = t
+        distancia_total = distancia
+        print("Tempo necessário para a interceptação: ", tempo_interceptacao)
+        print("Ponto x de interceptação: ", x_bola_imediato,
+              "\nPonto y de interceptação: ", y_bola_imediato)
+        print("Tempo até interceptação: ", tempo_max_interceptacao)
         break
 
 tempo_agora = 0.0
-sx_agora = S0x
-sy_agora = S0y
-acel_x = (bola_x_agora - sx_agora)/dist_total * acel_robo
-acel_y = (bola_y_agora - sy_agora)/dist_total * acel_robo
+sx_imediato = S0x
+sy_imediato = S0y
+aceleracao_x = (x_bola_imediato - sx_imediato)/distancia_total * aceleracao_r
+aceleracao_y = (y_bola_imediato - sy_imediato)/distancia_total * aceleracao_r
 pos_x = []
 pos_y = []
 
 # Posicoes pro grafico do robo
 while True:
-    if tempo_agora >= dt:
+    if tempo_agora >= tempo_interceptacao:
         break
-    x_agora = S0x + (acel_x * (tempo_agora**2))/2
-    y_agora = S0y + (acel_y * (tempo_agora**2))/2
+    x_agora = S0x + (aceleracao_x * (tempo_agora**2))/2
+    y_agora = S0y + (aceleracao_y * (tempo_agora**2))/2
     tempo_agora += 0.001
     pos_x.append(x_agora)
     pos_y.append(y_agora)
@@ -78,26 +77,26 @@ vel_x_robo_list = []
 vel_y_robo_list = []
 vel_x_bola_list = []
 vel_y_bola_list = []
-acel_x_robo_list = []
-acel_y_robo_list = []
-acel_x_bola_list = []
-acel_y_bola_list = []
+aceleracao_x_robo_list = []
+aceleracao_y_robo_list = []
+aceleracao_x_bola_list = []
+aceleracao_y_bola_list = []
 dist_rel_list = []
 
 # Posicoes, velocidades, acelerações e distância
 for tempo in tempos:
-    x_agora_robo = sx_agora + (acel_x * (tempo**2))/2
-    y_agora_robo = sy_agora + (acel_y * (tempo**2))/2
-    x_agora_bola = bola_x_agora
-    y_agora_bola = bola_y_agora
-    vel_x_robo = acel_x * tempo
-    vel_y_robo = acel_y * tempo
+    x_agora_robo = sx_imediato + (aceleracao_x * (tempo**2))/2
+    y_agora_robo = sy_imediato + (aceleracao_y * (tempo**2))/2
+    x_agora_bola = x_bola_imediato
+    y_agora_bola = y_bola_imediato
+    vel_x_robo = aceleracao_x * tempo
+    vel_y_robo = aceleracao_y * tempo
     vel_x_bola = 0.0
     vel_y_bola = 0.0
-    acel_x_robo = acel_x
-    acel_y_robo = acel_y
-    acel_x_bola = 0.0
-    acel_y_bola = 0.0
+    aceleracao_x_robo = aceleracao_x
+    aceleracao_y_robo = aceleracao_y
+    aceleracao_x_bola = 0.0
+    aceleracao_y_bola = 0.0
     dist_rel = ((x_agora_robo - x_agora_bola)**2 + (y_agora_robo - y_agora_bola)**2)**0.5
 
     pos_x_robo.append(x_agora_robo)
@@ -110,10 +109,10 @@ for tempo in tempos:
     vel_x_bola_list.append(vel_x_bola)
     vel_y_bola_list.append(vel_y_bola)
 
-    acel_x_robo_list.append(acel_x_robo)
-    acel_y_robo_list.append(acel_y_robo)
-    acel_x_bola_list.append(acel_x_bola)
-    acel_y_bola_list.append(acel_y_bola)
+    aceleracao_x_robo_list.append(aceleracao_x_robo)
+    aceleracao_y_robo_list.append(aceleracao_y_robo)
+    aceleracao_x_bola_list.append(aceleracao_x_bola)
+    aceleracao_y_bola_list.append(aceleracao_y_bola)
 
     dist_rel_list.append(dist_rel)
 
@@ -187,14 +186,14 @@ while True:
         # Gráfico dos componentes 𝑎𝑥 e 𝑎𝑦 da aceleração da bola e do robô em função do tempo
         plt.figure(figsize=(12, 6))
         plt.subplot(2, 2, 1)
-        plt.plot(tempos, acel_x_robo_list, color="darkcyan", label="Aceleração X Robô")
+        plt.plot(tempos, aceleracao_x_robo_list, color="darkcyan", label="Aceleração X Robô")
         plt.xlabel("Tempo (s)")
         plt.ylabel("Aceleração X")
         plt.title("Componente ax da Posição da Bola e do Robô")
         plt.legend()
 
         plt.subplot(2, 2, 2)
-        plt.plot(tempos, acel_y_robo_list, color="darkcyan", label="Aceleração Y Robô")
+        plt.plot(tempos, aceleracao_y_robo_list, color="darkcyan", label="Aceleração Y Robô")
         plt.xlabel("Tempo (s)")
         plt.ylabel("Aceleração Y")
         plt.title("Componente ay da Posição da Bola e do Robô")
